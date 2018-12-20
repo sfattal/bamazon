@@ -19,7 +19,21 @@ connection.connect(function(err) {
 });
 
 function start() {
-    connection.query("SELECT * FROM products", function(err, results) {
-        
+    connection.query("SELECT * FROM products", function(err, res) {
+        if (err) throw err;
+        console.log(res)
+
+        inquirer.prompt([
+            {
+                name: "purchaseID",
+                type: "input",
+                message: "What is the ID for the product you would like to purchase?",
+            },
+            {
+                name: "purchaseQty",
+                type: "input",
+                message: "How many units would like to purchase?",
+            }
+        ])
     })
 }
