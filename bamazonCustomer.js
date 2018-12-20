@@ -30,31 +30,39 @@ function start() {
         inquirer.prompt([
             {
                 name: "purchaseID",
-                type: "rawlist",
-                choices: function() {
-                    var productArray = [];
-                    for (var i = 0; i < res.length; i++) {
-                        productArray.push(res[i].item_id);
-                    }
-                    return productArray;
-                },
+                type: "input",
+                // choices: function() {
+                //     var productArray = [];
+                //     for (var i = 0; i < res.length; i++) {
+                //         productArray.push(res.item_id);
+                //     }
+                //     return productArray;
+                // },
                 message: "What is the ID for the product you would like to purchase?",
             },
             {
                 name: "purchaseQty",
                 type: "input",
-                message: "How many units would like to purchase?",
-            }
+                message: "How many units would you like to purchase?",
+            },
         ])
         
         .then(function(answer) {
             var chosenProduct;
             for (var i = 0; i < res.length; i++) {
                 if (res[i].item_id === answer.purchaseID) {
-                    chosenProduct = results[i];
+                    chosenProduct = res[i];
                 }
-            
+                console.log(res[i])
                 if (chosenProduct.stock_quantity > answer.purchaseQty) {
+                    connection.query(
+                        "UPDATE products SET ? WHERE ?",
+                        [
+                            {
+                                stock_quantity: (stock_quantity-answer.purchaseQty)
+                            }
+                        ]
+                    )
                     console.log("Order Successfully Placed!" + " Your total is: " + "$" + parseInt(purchaseQty*res[i].price))
                 }
                 else {
@@ -62,6 +70,5 @@ function start() {
                 }
             }
         })
-
     })
 }

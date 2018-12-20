@@ -14,12 +14,12 @@ CREATE TABLE products (
 );
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Red Dead Redemption 2 PlayStation 4", "Video Games", "59.88", 10),
-("DualShock 4 Wireless Controller for PlayStation 4 Jet Black", "Video Games", "46.69", 8),
-("Carhartt Mens Acrylic Watch Hat", "Clothing", "9.99", 7),
-("Champion Mens Powerblend Fleece Pullover Hoodie", "Clothing", "23.58", 5),
-("Yankee Candle Large Jar Candle, Midsummers Night", "Home & Kitchen", "17.99", 3),
-("Fleece Blanket Grey Microfiber", "Home & Kitchen", "25.99", 4),
+VALUES ("Red Dead Redemption 2 PlayStation 4", "Video Games", "59.88", 20),
+("DualShock 4 Wireless Controller for PlayStation 4 Jet Black", "Video Games", "46.69", 15),
+("Carhartt Mens Acrylic Watch Hat", "Clothing", "9.99", 9),
+("Champion Mens Powerblend Fleece Pullover Hoodie", "Clothing", "23.58", 12),
+("Yankee Candle Large Jar Candle, Midsummers Night", "Home & Kitchen", "17.99", 17),
+("Fleece Blanket Grey Microfiber", "Home & Kitchen", "25.99", 8),
 ("Burts Bees Natural Moisturizing Lip Balm 4 Tubes", "Beauty & Personal Care", "6.64", 10),
 ("Berocca Orange Flavor Effervescent Tablets 4 Tubes", "Beauty & Personal Care", "7.84", 8),
 ("Blue Buffalo Life Protection Formula Natural Adult Dry Dog Food", "Pet Supplies", "29.39", 5),
