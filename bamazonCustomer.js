@@ -24,20 +24,13 @@ function start() {
         
         console.log("Found " + res.length + " products")
         for (i = 0; i < res.length; i++) {
-            console.log("ID: " + res[i].item_id + " | Name: " + res[i].product_name + " | Price: " + res[i].price)
+            console.log("ID: " + res[i].item_id + "\nName: " + res[i].product_name + "\nPrice: " + res[i].price + "\n-----------------------------------------------------------------------------")
         }
 
         inquirer.prompt([
             {
                 name: "purchaseID",
                 type: "input",
-                // choices: function() {
-                //     var productArray = [];
-                //     for (var i = 0; i < res.length; i++) {
-                //         productArray.push(res.item_id);
-                //     }
-                //     return productArray;
-                // },
                 message: "What is the ID for the product you would like to purchase?",
             },
             {
@@ -48,26 +41,29 @@ function start() {
         ])
         
         .then(function(answer) {
+            // console.log(answer)
+            // console.log(res)
             var chosenProduct;
             for (var i = 0; i < res.length; i++) {
-                if (res[i].item_id === answer.purchaseID) {
+                if (res[i].item_id === parseInt(answer.purchaseID)) {
                     chosenProduct = res[i];
+                    break
                 }
-                console.log(res[i])
-                if (chosenProduct.stock_quantity > answer.purchaseQty) {
-                    connection.query(
-                        "UPDATE products SET ? WHERE ?",
-                        [
-                            {
-                                stock_quantity: (stock_quantity-answer.purchaseQty)
-                            }
-                        ]
-                    )
-                    console.log("Order Successfully Placed!" + " Your total is: " + "$" + parseInt(purchaseQty*res[i].price))
-                }
-                else {
-                    console.log("We are sorry, your order could not be placed due to insufficient quantity in stock")
-                }
+            }
+            if (chosenProduct.stock_quantity > answer.purchaseQty) {
+                var itemId = chosenProduct.item_id;
+                var newQuantity = chosenProduct.stock_quantity - answer.purchaseQty;
+                var sql = `UPDATE products SET stock_quantity = ${newQuantity} WHERE item_id = ${itemId}`;
+
+                connection.query(sql, function (err, result) {
+                    if (err) {
+                        throw err;
+                    }
+                });
+                console.log("Order Successfully Placed!" + " Your total is: " + "$" + parseInt(answer.purchaseQty) * res[i].price)
+            }
+            else {
+                console.log("We are sorry, your order could not be placed due to insufficient quantity in stock")
             }
         })
     })

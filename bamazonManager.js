@@ -29,30 +29,52 @@ function start() {
             message: "Select an option",
         })
         .then(function(answer) {
-            switch(answer) {
-                case "View Products for Sale":
-                viewAll();
-                break;
-
-                case "View Low Inventory":
-                viewLow();
-                break;
-
-                case "Add to Inventory":
-                addInv();
-                break;
-
-                case "Add New Product":
-                addNew();
-                break;
+            if (answer.command === "View Products for Sale") {
+                viewAll()
             }
+            else if (answer.command === "View Low Inventory"){
+                viewLow()
+            }
+            else if (answer.command === "Add to Inventory"){
+                addInv()
+            }
+            else if (answer.command === "Add New Product"){
+                addNew()
+            }
+            // switch(answer) {
+            //     case "View Products for Sale":
+            //     viewAll();
+            //     break;
+
+            //     case "View Low Inventory":
+            //     viewLow();
+            //     break;
+
+            //     case "Add to Inventory":
+            //     addInv();
+            //     break;
+
+            //     case "Add New Product":
+            //     addNew();
+            //     break;
+            // }
         })
 
-    })
-}
+        function viewAll() {
+            for (i = 0; i < res.length; i++) {
+                console.log("ID: " + res[i].item_id + " | Name: " + res[i].product_name + " | Price: " + res[i].price + " | Inventory: " + res[i].stock_quantity)
+            }
+        }
 
-function viewAll() {
-    for (i = 0; i < res.length; i++) {
-        console.log("ID: " + res[i].item_id + " | Name: " + res[i].product_name + " | Price: " + res[i].price + " | Inventory: " + res[i].stock_quantity)
-    }
+        function viewLow() {
+            for (i = 0; i < res.length; i++) {
+                if (res.stock_quantity < 5) {
+                    console.log("ID: " + res.item_id + " | Name: " + res.product_name)
+                }
+                else {
+                    console.log("All products have 5 or more SKUs in stock")
+                }
+            }
+        }
+    })
 }

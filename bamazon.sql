@@ -23,4 +23,4 @@ VALUES ("Red Dead Redemption 2 PlayStation 4", "Video Games", "59.88", 20),
 ("Burts Bees Natural Moisturizing Lip Balm 4 Tubes", "Beauty & Personal Care", "6.64", 10),
 ("Berocca Orange Flavor Effervescent Tablets 4 Tubes", "Beauty & Personal Care", "7.84", 8),
 ("Blue Buffalo Life Protection Formula Natural Adult Dry Dog Food", "Pet Supplies", "29.39", 5),
-("Multipet Duckworth Duck Toy Large", "Pet Supplies", "8.41", 5)
+("Multipet Duckworth Duck Toy Large", "Pet Supplies", "8.41", 4)
