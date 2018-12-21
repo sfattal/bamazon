@@ -62,19 +62,112 @@ function start() {
 
         function viewAll() {
             for (i = 0; i < res.length; i++) {
-                console.log("ID: " + res[i].item_id + " | Name: " + res[i].product_name + " | Price: " + res[i].price + " | Inventory: " + res[i].stock_quantity)
+                console.log("ID: " + res[i].item_id + "\nName: " + res[i].product_name + "\nPrice: " + res[i].price + "\nInventory: " + res[i].stock_quantity + "\n-----------------------------------------------------------------------------")
             }
         }
 
         function viewLow() {
-            for (i = 0; i < res.length; i++) {
-                if (res.stock_quantity < 5) {
-                    console.log("ID: " + res.item_id + " | Name: " + res.product_name)
+            var lowInv;
+            for (var i = 0; i < res.length; i++) {
+                if (res[i].stock_quantity < 5) {
+                    lowInv = res[i];
+                    // break
                 }
-                else {
-                    console.log("All products have 5 or more SKUs in stock")
-                }
+                // console.log("ID: " + lowInv.item_id + "\nName: " + lowInv.product_name + "\nInventory: " + lowInv.stock_quantity + "\n-----------------------------------------------------------------------------")
+                console.log(lowInv)
             }
+            // for (var i = 0; i < lowInv.length; i++) {
+            //     if (lowInv.stock_quantity < 5) {
+            //         console.log("ID: " + lowInv.item_id + "\nName: " + lowInv.product_name + "\nInventory: " + lowInv.stock_quantity + "\n-----------------------------------------------------------------------------")
+            //     }
+            //     else {
+            //         console.log("All products have 5 or more SKUs in stock")
+            //     }
+            // }
+        }
+        function addInv() {
+            for (i = 0; i < res.length; i++) {
+                console.log("ID: " + res[i].item_id + "\nName: " + res[i].product_name + "\nPrice: " + res[i].price + "\nInventory: " + res[i].stock_quantity + "\n-----------------------------------------------------------------------------")
+            }
+    
+            inquirer.prompt([
+                {
+                    name: "purchaseID",
+                    type: "input",
+                    message: "What is the ID for the product you would like to add to?",
+                },
+                {
+                    name: "purchaseQty",
+                    type: "input",
+                    message: "How many units would you like to add?",
+                },
+            ])
+            
+            .then(function(answer) {
+                var chosenProduct;
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].item_id === parseInt(answer.purchaseID)) {
+                        chosenProduct = res[i];
+                        break
+                    }
+                }
+                if (chosenProduct.stock_quantity > answer.purchaseQty) {
+                    var itemId = chosenProduct.item_id;
+                    var newQuantity = parseInt(chosenProduct.stock_quantity) + parseInt(answer.purchaseQty);
+                    var sql = `UPDATE products SET stock_quantity = ${newQuantity} WHERE item_id = ${itemId}`;
+    
+                    connection.query(sql, function (err, result) {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                    console.log("Inventory updated" + " Total for the product: " + (parseInt(chosenProduct.stock_quantity) + parseInt(answer.purchaseQty)))
+                }
+            })
+        }
+
+        function addNew() {
+            inquirer.prompt([
+                {
+                    name: "prodName",
+                    type: "input",
+                    message: "Name of the product you would like to add",
+                },
+                {
+                    name: "prodDep",
+                    type: "input",
+                    message: "Department this product belong to",
+                },
+                {
+                    name: "prodPrice",
+                    type: "input",
+                    message: "Price of the product",
+                },
+                {
+                    name: "prodInv",
+                    type: "input",
+                    message: "Units in stock",
+                },
+            ])
+            connection.query(
+            "INSERT INTO products SET ?",
+                {
+                product_name: prodName.answer,
+                department_name: prodDep.answer,
+                price: prodPrice.answer,
+                stock_quantity: prodInv.answer
+                },
+            )
         }
     })
 }
+// for (i = 0; i < res.length; i++) {
+//     // console.log(res[i].stock_quantity)
+//     if (res[i].stock_quantity < 5) {
+//         console.log("ID: " + res[i].item_id + "\nName: " + res[i].product_name + "\nInventory: " + res[i].stock_quantity + "\n-----------------------------------------------------------------------------")
+//     }
+    
+//     else {
+//         console.log("All products have 5 or more SKUs in stock")
+//     }
+// }

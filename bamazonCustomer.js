@@ -41,8 +41,6 @@ function start() {
         ])
         
         .then(function(answer) {
-            // console.log(answer)
-            // console.log(res)
             var chosenProduct;
             for (var i = 0; i < res.length; i++) {
                 if (res[i].item_id === parseInt(answer.purchaseID)) {
