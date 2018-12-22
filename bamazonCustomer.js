@@ -21,12 +21,10 @@ connection.connect(function(err) {
 function start() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
-        
         console.log("Found " + res.length + " products")
         for (i = 0; i < res.length; i++) {
             console.log("ID: " + res[i].item_id + "\nName: " + res[i].product_name + "\nPrice: " + res[i].price + "\n-----------------------------------------------------------------------------")
         }
-
         inquirer.prompt([
             {
                 name: "purchaseID",
@@ -39,7 +37,6 @@ function start() {
                 message: "How many units would you like to purchase?",
             },
         ])
-        
         .then(function(answer) {
             var chosenProduct;
             for (var i = 0; i < res.length; i++) {
@@ -51,6 +48,7 @@ function start() {
             if (chosenProduct.stock_quantity > answer.purchaseQty) {
                 var itemId = chosenProduct.item_id;
                 var newQuantity = chosenProduct.stock_quantity - answer.purchaseQty;
+                // template literal
                 var sql = `UPDATE products SET stock_quantity = ${newQuantity} WHERE item_id = ${itemId}`;
 
                 connection.query(sql, function (err, result) {
